@@ -35,11 +35,11 @@ int figures[7][4] =
 /// </summary>
 /// <returns>prawda jeśli nie nachodzą</returns>
 
-bool check() 
+bool check()
 {
 	for (int i = 0; i < 4; i++)
 		if (a[i].x < 0 || a[i].x >= N || a[i].y >= M) return 0;
-		else if (field[a[i].y][a[i].x]) return 0; 
+		else if (field[a[i].y][a[i].x]) return 0;
 
 
 	return 1;
@@ -84,17 +84,18 @@ int main()
 	/// numer kafelka w teksturze 
 	/// </summary>
 	int colorNum = 1;
-	float timer = 0, delay = 0.3;
-	int choice;;
+	float timer = -10e10, delay = 0.3;
 	Clock clock;
+
+	bool menu = true;
 
 	while (window.isOpen())//game loop
 	{
-		
+
 		float time = clock.getElapsedTime().asSeconds();
 		clock.restart();
 		timer += time;
-		
+
 		Event e;
 		while (window.pollEvent(e))// kiedy jest jakis event w naszym oknie sie cos dzieje//okno slucha polecenia eventu
 		{
@@ -111,27 +112,28 @@ int main()
 				}
 				if (e.key.code == sf::Keyboard::Enter)
 				{
-					 choice=Menu.Pressed();
+					switch (Menu.Pressed())
+					{
+						case 0:
+						{
+							//gra
+							menu = false;
+							timer = 0;
+							break;
+						}
+						case 1:
+						{
+							//zasady
+							break;
+						}
+						case 2:
+						{
+							window.close();
+							break;
+						}
+					}
 				}
-			}
-			switch (choice)
-			{
-			case 0:
-			{
-				//gra
-				break;
-			}
-			case 1:
-			{
-				//zasady
-				break;
-			}
-			case 2:
-			{
-				window.close();
-				break;
-			}
-			
+
 			}
 			if (e.type == Event::Closed) //e.type kazdy event ma jakis typ 
 				window.close();
@@ -219,7 +221,6 @@ int main()
 		dx = 0; rotate = 0; delay = 0.3;
 
 		window.clear(Color::Black);
-		Menu.draw(window);
 		window.draw(background);
 
 
@@ -262,9 +263,23 @@ int main()
 		window.draw(frame);
 
 		if (end)
-
 		{
+			rectangle.setSize(Vector2f(320, 420));
+			rectangle.setFillColor(Color(0, 0, 0, 200));
+			rectangle.setPosition(0, 0);
+			window.draw(rectangle);
+
 			window.draw(gameover);
+		}
+
+		if (menu)
+		{
+			rectangle.setSize(Vector2f(320, 420));
+			rectangle.setFillColor(Color(0, 0, 0, 200));
+			rectangle.setPosition(0,0);
+			window.draw(rectangle);
+
+			Menu.draw(window);
 		}
 
 
