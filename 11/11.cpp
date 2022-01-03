@@ -1,4 +1,4 @@
-﻿#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
 using namespace sf;
@@ -33,11 +33,13 @@ int figures[7][4] =
 /// sprawdzenie kolizji klocków 
 /// </summary>
 /// <returns>prawda jeśli nie nachodzą</returns>
-bool check()
+
+bool check() 
 {
 	for (int i = 0; i < 4; i++)
 		if (a[i].x < 0 || a[i].x >= N || a[i].y >= M) return 0;
-		else if (field[a[i].y][a[i].x]) return 0;
+		else if (field[a[i].y][a[i].x]) return 0; 
+
 
 	return 1;
 };
@@ -45,6 +47,20 @@ bool check()
 
 int main()
 {
+
+	Color colors[] =
+	{
+	 Color::Black,
+	 Color::White,       ///< White predefined color
+	 Color::Red,        ///< Red predefined color
+	 Color::Green,       ///< Green predefined color
+	 Color::Blue,        ///< Blue predefined color
+	 Color::Yellow,      ///< Yellow predefined color
+	 Color::Magenta,     ///< Magenta predefined color
+	 Color::Cyan,
+
+	};
+
 	srand(time(0));
 
 	RenderWindow window(VideoMode(320, 420), "Tetris!");
@@ -102,7 +118,9 @@ int main()
 		//// <- Move -> ///
 		for (int i = 0; i < 4; i++)
 		{
-			b[i] = a[i];
+
+			b[i] = a[i]; 
+
 			a[i].x += dx;
 		}
 
@@ -131,7 +149,9 @@ int main()
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				b[i] = a[i]; a[i].y += 1;
+
+				b[i] = a[i]; a[i].y += 1; 
+
 			}
 			timer = 0;
 			if (!check())
@@ -148,9 +168,11 @@ int main()
 				}
 
 				if (!check())
-				{
+
+				{	
 					end = true;
-					timer = -10e10; //cofam sie w czasie 
+					timer=-10e10; //cofam sie w czasie 
+
 				}
 			}
 		}
@@ -174,32 +196,55 @@ int main()
 		window.clear(Color::White);
 		window.draw(background);
 
+
+		RectangleShape rectangle;
+
 		for (int i = 0; i < M; i++)
-			for (int j = 0; j < N; j++) //rysowanie kloceków, które spadły
+			for (int j = 0; j < N; j++) //rysowanie klocków, które spadły
 			{
+				
+				rectangle.setSize(Vector2f(18, 18));
+				
+				rectangle.setOutlineColor(Color::Black);
+				rectangle.setOutlineThickness(1);
 				if (field[i][j] == 0) continue; //przezroczystość
-				s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
-				s.setPosition(j * 18, i * 18);
-				s.move(28, 31); //offset
-				window.draw(s);
+				rectangle.setFillColor(colors[field[i][j]]);
+				//s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
+				rectangle.setPosition(j * 18, i * 18);
+				rectangle.move(28, 31); //offset
+				window.draw(rectangle);
+
 			}
 
 		for (int i = 0; i < 4; i++)
 		{
-			s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
-			s.setPosition(a[i].x * 18, a[i].y * 18);
-			s.move(28, 31); //offset // przesunięcie o ramkę 
-			window.draw(s);
+
+			rectangle.setSize(Vector2f(18, 18));
+			rectangle.setFillColor(Color::Red);
+			rectangle.setOutlineColor(Color::Black);
+			rectangle.setOutlineThickness(1);
+			rectangle.setPosition(a[i].x * 18, a[i].y * 18);
+			rectangle.move(28, 31);
+			window.draw(rectangle);
+			
+			//s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
+			//s.setPosition(a[i].x * 18, a[i].y * 18);
+			//s.move(28, 31); //offset // przesunięcie o ramkę 
+			//window.draw(s);
+
 		}
 		window.draw(frame);
 
 		if (end)
-		{
+
+		{	
 			window.draw(gameover);
 		}
+		
 
 		window.display();
 	}
 
 	return 0;
-}
+
+
