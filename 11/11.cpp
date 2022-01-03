@@ -85,7 +85,7 @@ int main()
 	/// </summary>
 	int colorNum = 1;
 	float timer = 0, delay = 0.3;
-	int choice;;
+	int choice=0;
 	Clock clock;
 
 	while (window.isOpen())//game loop
