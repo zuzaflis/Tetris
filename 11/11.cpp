@@ -66,11 +66,16 @@ int main()
 
 	RenderWindow window(VideoMode(320, 420), "Tetris!");
 	menu Menu(window.getSize().x, window.getSize().y);
-	Texture t2, t3, t4;
+	Texture t1, t2, t3, t4;
+	t1.loadFromFile("images/tiles.png");
 	t2.loadFromFile("images/background.png");
 	t3.loadFromFile("images/frame.png");
 	t4.loadFromFile("images/gameover.png");
 
+	/// <summary>
+	/// wszystkie kafelki
+	/// </summary>
+	Sprite s(t1);
 	Sprite background(t2), frame(t3), gameover(t4);
 	gameover.move(10, 50);
 	int dx = 0; bool rotate = 0;
@@ -232,6 +237,7 @@ int main()
 				rectangle.setOutlineThickness(1);
 				if (field[i][j] == 0) continue; //przezroczystość
 				rectangle.setFillColor(colors[field[i][j]]);
+				s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
 				rectangle.setPosition(j * 18, i * 18);
 				rectangle.move(28, 31); //offset
 				window.draw(rectangle);
@@ -242,12 +248,17 @@ int main()
 		{
 
 			rectangle.setSize(Vector2f(18, 18));
-			rectangle.setFillColor(colors[colorNum]);
+			rectangle.setFillColor(Color::Red);
 			rectangle.setOutlineColor(Color::Black);
 			rectangle.setOutlineThickness(1);
 			rectangle.setPosition(a[i].x * 18, a[i].y * 18);
 			rectangle.move(28, 31);
 			window.draw(rectangle);
+
+			s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
+			s.setPosition(a[i].x * 18, a[i].y * 18);
+			s.move(28, 31); //offset // przesunięcie o ramkę 
+			window.draw(s);
 
 		}
 		window.draw(frame);
