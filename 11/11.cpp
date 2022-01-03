@@ -51,14 +51,14 @@ int main()
 
 	Color colors[] =
 	{
-	 Color(51, 64, 24, 250),
-	 Color(100, 115, 47, 250),       
-	 Color(202, 217, 89, 250),        
-	 Color(180, 191, 94, 250),       
-	 Color(36, 38, 20, 250),        
-	 Color(60, 64, 28,250),      
-	 Color(140, 107, 100, 250),     
-	 Color(191, 146, 107,250),
+		 Color(51, 64, 24, 250),
+		 Color(100, 115, 47, 250),       
+		 Color(202, 217, 89, 250),        
+		 Color(180, 191, 94, 250),       
+		 Color(36, 38, 20, 250),        
+		 Color(60, 64, 28,250),      
+		 Color(140, 107, 100, 250),     
+		 Color(191, 146, 107,250),
 
 	};
 
@@ -86,6 +86,15 @@ int main()
 	Clock clock;
 
 	bool menu = true;
+
+	// Kształt pierwszej figury
+	for (int i = 0; i < 4; i++)
+	{
+		int n = 6;
+		a[i].x = figures[n][i] % 2; //ustalam współrzędne nowej figury
+		a[i].y = (int)figures[n][i] / 2;
+	}
+
 
 	while (window.isOpen())//game loop
 	{
