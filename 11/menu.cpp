@@ -4,16 +4,19 @@
 
 menu::menu(float szerokosc, float wysokosc)
 {
-	font.loadFromFile("cz/arial.ttf");
+	fonttitle.loadFromFile("cz/LexendDeca-Black.ttf");
+	font.loadFromFile("cz/LexendDeca-Regular.ttf");
 
-	m_title.setFont(font);
-	m_title.setString("TETRIS GAME");
+	m_title.setFont(fonttitle);
+	m_title.setString("TETRIS");
 	m_title.setCharacterSize(40);
-	m_title.setFillColor(sf::Color::Blue);
-	
+	m_title.setFillColor(sf::Color(100, 115, 47, 250));
+	m_title.setOutlineColor(sf::Color::White);
+	m_title.setOutlineThickness(1);
+	m_title.setPosition(sf::Vector2f(szerokosc / 6, wysokosc / 18));
 
 	MENU_T[0].setFont(font);
-	MENU_T[0].setFillColor(sf::Color::Red);
+	MENU_T[0].setFillColor(sf::Color(100, 115, 47, 250));
 	MENU_T[0].setString("Play");
 	MENU_T[0].setPosition(sf::Vector2f(szerokosc / 3, wysokosc / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
@@ -48,7 +51,7 @@ void menu::MoveUp()
 	{
 		MENU_T[SelectedItem].setFillColor(sf::Color::White);
 		SelectedItem--;
-		MENU_T[SelectedItem].setFillColor(sf::Color::Red);
+		MENU_T[SelectedItem].setFillColor(sf::Color(100, 115, 47, 250));
 	}
 }
 void menu::MoveDown()
@@ -57,6 +60,6 @@ void menu::MoveDown()
 	{
 		MENU_T[SelectedItem].setFillColor(sf::Color::White);
 		SelectedItem++;
-		MENU_T[SelectedItem].setFillColor(sf::Color::Red);
+		MENU_T[SelectedItem].setFillColor(sf::Color(100, 115, 47, 250));
 	}
 }

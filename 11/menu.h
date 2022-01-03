@@ -18,6 +18,7 @@ public:
 	
 private:
 	int SelectedItem;
+	sf::Font fonttitle;
 	sf::Font font;
 	sf::Text MENU_T[MAX_NUMBER_OF_ITEMS];
 	sf::Text m_title;
