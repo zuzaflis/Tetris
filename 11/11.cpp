@@ -33,11 +33,13 @@ int figures[7][4] =
 /// sprawdzenie kolizji klocków 
 /// </summary>
 /// <returns>prawda jeśli nie nachodzą</returns>
+
 bool check() 
 {
 	for (int i = 0; i < 4; i++)
 		if (a[i].x < 0 || a[i].x >= N || a[i].y >= M) return 0;
 		else if (field[a[i].y][a[i].x]) return 0; 
+
 
 	return 1;
 };
@@ -45,6 +47,7 @@ bool check()
 
 int main()
 {
+
 	Color colors[] =
 	{
 	 Color::Black,
@@ -57,6 +60,7 @@ int main()
 	 Color::Cyan,
 
 	};
+
 	srand(time(0));
 
 	RenderWindow window(VideoMode(320, 420), "Tetris!");
@@ -114,7 +118,9 @@ int main()
 		//// <- Move -> ///
 		for (int i = 0; i < 4; i++)
 		{
+
 			b[i] = a[i]; 
+
 			a[i].x += dx;
 		}
 
@@ -143,7 +149,9 @@ int main()
 		{
 			for (int i = 0; i < 4; i++)
 			{
+
 				b[i] = a[i]; a[i].y += 1; 
+
 			}
 			timer = 0;
 			if (!check())
@@ -160,9 +168,11 @@ int main()
 				}
 
 				if (!check())
+
 				{	
 					end = true;
 					timer=-10e10; //cofam sie w czasie 
+
 				}
 			}
 		}
@@ -186,6 +196,7 @@ int main()
 		window.clear(Color::White);
 		window.draw(background);
 
+
 		RectangleShape rectangle;
 
 		for (int i = 0; i < M; i++)
@@ -202,10 +213,12 @@ int main()
 				rectangle.setPosition(j * 18, i * 18);
 				rectangle.move(28, 31); //offset
 				window.draw(rectangle);
+
 			}
 
 		for (int i = 0; i < 4; i++)
 		{
+
 			rectangle.setSize(Vector2f(18, 18));
 			rectangle.setFillColor(Color::Red);
 			rectangle.setOutlineColor(Color::Black);
@@ -218,16 +231,20 @@ int main()
 			//s.setPosition(a[i].x * 18, a[i].y * 18);
 			//s.move(28, 31); //offset // przesunięcie o ramkę 
 			//window.draw(s);
+
 		}
 		window.draw(frame);
 
 		if (end)
+
 		{	
 			window.draw(gameover);
 		}
 		
+
 		window.display();
 	}
 
 	return 0;
-}
+
+
