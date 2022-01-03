@@ -85,7 +85,7 @@ int main()
 	/// </summary>
 	int colorNum = 1;
 	float timer = 0, delay = 0.3;
-
+	int choice;;
 	Clock clock;
 
 	while (window.isOpen())//game loop
@@ -94,7 +94,7 @@ int main()
 		float time = clock.getElapsedTime().asSeconds();
 		clock.restart();
 		timer += time;
-
+		
 		Event e;
 		while (window.pollEvent(e))// kiedy jest jakis event w naszym oknie sie cos dzieje//okno slucha polecenia eventu
 		{
@@ -102,15 +102,37 @@ int main()
 			if (e.type == sf::Event::KeyPressed)
 			{
 				if (e.key.code == sf::Keyboard::Up)
-
+				{
 					Menu.MoveUp();
-
+				}
 				if (e.key.code == sf::Keyboard::Down)
 				{
 					Menu.MoveDown();
 				}
+				if (e.key.code == sf::Keyboard::Enter)
+				{
+					 choice=Menu.Pressed();
+				}
 			}
-
+			switch (choice)
+			{
+			case 0:
+			{
+				//gra
+				break;
+			}
+			case 1:
+			{
+				//zasady
+				break;
+			}
+			case 2:
+			{
+				window.close();
+				break;
+			}
+			
+			}
 			if (e.type == Event::Closed) //e.type kazdy event ma jakis typ 
 				window.close();
 			if (e.type == Event::KeyPressed)
@@ -124,7 +146,6 @@ int main()
 
 		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.05;// jak sie klika dol to przyspiesza a nie opoznia wiec trzeba nazwe zmienic
 
-		//// <- Move -> ///
 		for (int i = 0; i < 4; i++)
 		{
 
@@ -137,7 +158,6 @@ int main()
 			for (int i = 0; i < 4; i++)
 				a[i] = b[i];
 
-		//////Rotate//////
 		if (rotate)
 		{
 			Point p = a[1]; //center of rotation
@@ -153,7 +173,6 @@ int main()
 					a[i] = b[i];
 		}
 
-		///////Tick//////
 		if (timer > delay) //wykonuje kiedy minie delay
 		{
 			for (int i = 0; i < 4; i++)
@@ -186,7 +205,6 @@ int main()
 			}
 		}
 
-		///////check lines//////////
 		int k = M - 1;//dlugosc pola, skad spada klocek
 		for (int i = M - 1; i > 0; i--)
 		{
@@ -198,52 +216,50 @@ int main()
 			}
 			if (count < N) k--;
 		}
-
 		dx = 0; rotate = 0; delay = 0.3;
 
-		/////////draw//////////
 		window.clear(Color::Black);
 		Menu.draw(window);
-		//window.draw(background);
+		window.draw(background);
 
 
-		//RectangleShape rectangle;
+		RectangleShape rectangle;
 
-		//for (int i = 0; i < M; i++)
-		//	for (int j = 0; j < N; j++) //rysowanie klocków, które spadły
-		//	{
+		for (int i = 0; i < M; i++)
+			for (int j = 0; j < N; j++) //rysowanie klocków, które spadły
+			{
 
-		//		rectangle.setSize(Vector2f(18, 18));
+				rectangle.setSize(Vector2f(18, 18));
 
-		//		rectangle.setOutlineColor(Color::Black);
-		//		rectangle.setOutlineThickness(1);
-		//		if (field[i][j] == 0) continue; //przezroczystość
-		//		rectangle.setFillColor(colors[field[i][j]]);
-		//		s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
-		//		rectangle.setPosition(j * 18, i * 18);
-		//		rectangle.move(28, 31); //offset
-		//		window.draw(rectangle);
+				rectangle.setOutlineColor(Color::Black);
+				rectangle.setOutlineThickness(1);
+				if (field[i][j] == 0) continue; //przezroczystość
+				rectangle.setFillColor(colors[field[i][j]]);
+				s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
+				rectangle.setPosition(j * 18, i * 18);
+				rectangle.move(28, 31); //offset
+				window.draw(rectangle);
 
-		//	}
+			}
 
-		//for (int i = 0; i < 4; i++)
-		//{
+		for (int i = 0; i < 4; i++)
+		{
 
-		//	rectangle.setSize(Vector2f(18, 18));
-		//	rectangle.setFillColor(Color::Red);
-		//	rectangle.setOutlineColor(Color::Black);
-		//	rectangle.setOutlineThickness(1);
-		//	rectangle.setPosition(a[i].x * 18, a[i].y * 18);
-		//	rectangle.move(28, 31);
-		//	window.draw(rectangle);
+			rectangle.setSize(Vector2f(18, 18));
+			rectangle.setFillColor(Color::Red);
+			rectangle.setOutlineColor(Color::Black);
+			rectangle.setOutlineThickness(1);
+			rectangle.setPosition(a[i].x * 18, a[i].y * 18);
+			rectangle.move(28, 31);
+			window.draw(rectangle);
 
-			//s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
-			//s.setPosition(a[i].x * 18, a[i].y * 18);
-			//s.move(28, 31); //offset // przesunięcie o ramkę 
-			//window.draw(s);
+			s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
+			s.setPosition(a[i].x * 18, a[i].y * 18);
+			s.move(28, 31); //offset // przesunięcie o ramkę 
+			window.draw(s);
 
-	//	}
-	//	window.draw(frame);
+		}
+		window.draw(frame);
 
 		if (end)
 
