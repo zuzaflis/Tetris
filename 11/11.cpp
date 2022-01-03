@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
+#include "menu.h"
 using namespace sf;
 
 const int M = 20;
@@ -64,7 +65,7 @@ int main()
 	srand(time(0));
 
 	RenderWindow window(VideoMode(320, 420), "Tetris!");
-
+	menu Menu(window.getSize().x, window.getSize().y);
 	Texture t1, t2, t3, t4;
 	t1.loadFromFile("images/tiles.png");
 	t2.loadFromFile("images/background.png");
@@ -89,12 +90,7 @@ int main()
 
 	while (window.isOpen())//game loop
 	{
-		for (int i = 0; i < M; i++)
-		{
-			for (int j = 0; j < N; j++)
-				std::cout << field[i][j] << " ";
-			std::cout << std::endl;
-		}  std::cout << std::endl;
+		
 		float time = clock.getElapsedTime().asSeconds();
 		clock.restart();
 		timer += time;
@@ -102,6 +98,19 @@ int main()
 		Event e;
 		while (window.pollEvent(e))// kiedy jest jakis event w naszym oknie sie cos dzieje//okno slucha polecenia eventu
 		{
+
+			if (e.type == sf::Event::KeyPressed)
+			{
+				if (e.key.code == sf::Keyboard::Up)
+
+					Menu.MoveUp();
+
+				if (e.key.code == sf::Keyboard::Down)
+				{
+					Menu.MoveDown();
+				}
+			}
+
 			if (e.type == Event::Closed) //e.type kazdy event ma jakis typ 
 				window.close();
 			if (e.type == Event::KeyPressed)
@@ -119,7 +128,7 @@ int main()
 		for (int i = 0; i < 4; i++)
 		{
 
-			b[i] = a[i]; 
+			b[i] = a[i];
 
 			a[i].x += dx;
 		}
@@ -150,7 +159,7 @@ int main()
 			for (int i = 0; i < 4; i++)
 			{
 
-				b[i] = a[i]; a[i].y += 1; 
+				b[i] = a[i]; a[i].y += 1;
 
 			}
 			timer = 0;
@@ -169,9 +178,9 @@ int main()
 
 				if (!check())
 
-				{	
+				{
 					end = true;
-					timer=-10e10; //cofam sie w czasie 
+					timer = -10e10; //cofam sie w czasie 
 
 				}
 			}
@@ -193,58 +202,59 @@ int main()
 		dx = 0; rotate = 0; delay = 0.3;
 
 		/////////draw//////////
-		window.clear(Color::White);
-		window.draw(background);
+		window.clear(Color::Black);
+		Menu.draw(window);
+		//window.draw(background);
 
 
-		RectangleShape rectangle;
+		//RectangleShape rectangle;
 
-		for (int i = 0; i < M; i++)
-			for (int j = 0; j < N; j++) //rysowanie klocków, które spadły
-			{
-				
-				rectangle.setSize(Vector2f(18, 18));
-				
-				rectangle.setOutlineColor(Color::Black);
-				rectangle.setOutlineThickness(1);
-				if (field[i][j] == 0) continue; //przezroczystość
-				rectangle.setFillColor(colors[field[i][j]]);
-				//s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
-				rectangle.setPosition(j * 18, i * 18);
-				rectangle.move(28, 31); //offset
-				window.draw(rectangle);
+		//for (int i = 0; i < M; i++)
+		//	for (int j = 0; j < N; j++) //rysowanie klocków, które spadły
+		//	{
 
-			}
+		//		rectangle.setSize(Vector2f(18, 18));
 
-		for (int i = 0; i < 4; i++)
-		{
+		//		rectangle.setOutlineColor(Color::Black);
+		//		rectangle.setOutlineThickness(1);
+		//		if (field[i][j] == 0) continue; //przezroczystość
+		//		rectangle.setFillColor(colors[field[i][j]]);
+		//		s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
+		//		rectangle.setPosition(j * 18, i * 18);
+		//		rectangle.move(28, 31); //offset
+		//		window.draw(rectangle);
 
-			rectangle.setSize(Vector2f(18, 18));
-			rectangle.setFillColor(Color::Red);
-			rectangle.setOutlineColor(Color::Black);
-			rectangle.setOutlineThickness(1);
-			rectangle.setPosition(a[i].x * 18, a[i].y * 18);
-			rectangle.move(28, 31);
-			window.draw(rectangle);
-			
+		//	}
+
+		//for (int i = 0; i < 4; i++)
+		//{
+
+		//	rectangle.setSize(Vector2f(18, 18));
+		//	rectangle.setFillColor(Color::Red);
+		//	rectangle.setOutlineColor(Color::Black);
+		//	rectangle.setOutlineThickness(1);
+		//	rectangle.setPosition(a[i].x * 18, a[i].y * 18);
+		//	rectangle.move(28, 31);
+		//	window.draw(rectangle);
+
 			//s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
 			//s.setPosition(a[i].x * 18, a[i].y * 18);
 			//s.move(28, 31); //offset // przesunięcie o ramkę 
 			//window.draw(s);
 
-		}
-		window.draw(frame);
+	//	}
+	//	window.draw(frame);
 
 		if (end)
 
-		{	
+		{
 			window.draw(gameover);
 		}
-		
+
 
 		window.display();
 	}
 
 	return 0;
 
-
+}
