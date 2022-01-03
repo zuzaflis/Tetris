@@ -51,41 +51,38 @@ int main()
 
 	Color colors[] =
 	{
-	 Color::Black,
-	 Color::White,       ///< White predefined color
-	 Color::Red,        ///< Red predefined color
-	 Color::Green,       ///< Green predefined color
-	 Color::Blue,        ///< Blue predefined color
-	 Color::Yellow,      ///< Yellow predefined color
-	 Color::Magenta,     ///< Magenta predefined color
-	 Color::Cyan,
+	 Color(51, 64, 24, 250),
+	 Color(100, 115, 47, 250),       
+	 Color(202, 217, 89, 250),        
+	 Color(180, 191, 94, 250),       
+	 Color(36, 38, 20, 250),        
+	 Color(60, 64, 28,250),      
+	 Color(140, 107, 100, 250),     
+	 Color(191, 146, 107,250),
 
 	};
 
 	srand(time(0));
 
-	RenderWindow window(VideoMode(320, 420), "Tetris!");
+	RenderWindow window(VideoMode(241, 430), "Tetris!");
 	menu Menu(window.getSize().x, window.getSize().y);
-	Texture t1, t2, t3, t4;
-	t1.loadFromFile("images/tiles.png");
-	t2.loadFromFile("images/background.png");
-	t3.loadFromFile("images/frame.png");
+	Texture t2, t3, t4;
+	t2.loadFromFile("images/background1.jpg");
+	t3.loadFromFile("images/frame1.png");
 	t4.loadFromFile("images/gameover.png");
 
-	/// <summary>
-	/// wszystkie kafelki
-	/// </summary>
-	Sprite s(t1);
 	Sprite background(t2), frame(t3), gameover(t4);
 	gameover.move(10, 50);
+	gameover.setScale(0.75, 0.8);
+	frame.setScale(0.58, 0.76);
+	frame.move(24, 31);
 	int dx = 0; bool rotate = 0;
 
 	/// <summary>
 	/// numer kafelka w teksturze 
 	/// </summary>
 	int colorNum = 1;
-	float timer = 0, delay = 0.3;
-	int choice;;
+	float timer = -10e10, delay = 0.3;
 	Clock clock;
 
 	bool menu = true;
@@ -221,7 +218,7 @@ int main()
 		}
 		dx = 0; rotate = 0; delay = 0.3;
 
-		window.clear(Color::Black);
+		window.clear(Color::White);
 		window.draw(background);
 
 
@@ -233,11 +230,10 @@ int main()
 
 				rectangle.setSize(Vector2f(18, 18));
 
-				rectangle.setOutlineColor(Color::Black);
+				rectangle.setOutlineColor(Color::White);
 				rectangle.setOutlineThickness(1);
 				if (field[i][j] == 0) continue; //przezroczystość
 				rectangle.setFillColor(colors[field[i][j]]);
-				s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18)); //wyciągam kafelka z tekstury
 				rectangle.setPosition(j * 18, i * 18);
 				rectangle.move(28, 31); //offset
 				window.draw(rectangle);
@@ -248,24 +244,19 @@ int main()
 		{
 
 			rectangle.setSize(Vector2f(18, 18));
-			rectangle.setFillColor(Color::Red);
-			rectangle.setOutlineColor(Color::Black);
+			rectangle.setFillColor(colors[colorNum]);
+			rectangle.setOutlineColor(Color::White);
 			rectangle.setOutlineThickness(1);
 			rectangle.setPosition(a[i].x * 18, a[i].y * 18);
 			rectangle.move(28, 31);
 			window.draw(rectangle);
-
-			s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
-			s.setPosition(a[i].x * 18, a[i].y * 18);
-			s.move(28, 31); //offset // przesunięcie o ramkę 
-			window.draw(s);
 
 		}
 		window.draw(frame);
 
 		if (end)
 		{
-			rectangle.setSize(Vector2f(320, 420));
+			rectangle.setSize(Vector2f(260, 430));
 			rectangle.setFillColor(Color(0, 0, 0, 200));
 			rectangle.setPosition(0, 0);
 			window.draw(rectangle);
@@ -275,8 +266,8 @@ int main()
 
 		if (menu)
 		{
-			rectangle.setSize(Vector2f(320, 420));
-			rectangle.setFillColor(Color(0, 0, 0, 200));
+			rectangle.setSize(Vector2f(260, 430));
+			rectangle.setFillColor(Color(0, 0, 0, 250));
 			rectangle.setPosition(0,0);
 			window.draw(rectangle);
 
