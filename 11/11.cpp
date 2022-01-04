@@ -104,7 +104,7 @@ int main()
 		timer += time;
 
 		Event e;
-		while (window.pollEvent(e))// kiedy jest jakis event w naszym oknie sie cos dzieje//okno slucha polecenia eventu
+		while (window.pollEvent(e))
 		{
 
 			if (e.type == sf::Event::KeyPressed)
@@ -142,7 +142,7 @@ int main()
 				}
 
 			}
-			if (e.type == Event::Closed) //e.type kazdy event ma jakis typ 
+			if (e.type == Event::Closed)  
 				window.close();
 			if (e.type == Event::KeyPressed)
 				if (e.key.code == Keyboard::Escape) window.close();
@@ -153,7 +153,7 @@ int main()
 				else if (e.key.code == Keyboard::Right) dx = 1;
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.05;// jak sie klika dol to przyspiesza a nie opoznia wiec trzeba nazwe zmienic
+		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.05;
 
 		for (int i = 0; i < 4; i++)
 		{

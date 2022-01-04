@@ -13,12 +13,12 @@ public:
 	void draw(sf::RenderWindow &window);
 	void MoveUp();
 	void MoveDown();
-	int Pressed() { return SelectedItem; }
+	int Pressed() { return Selected; }
 	
 	
 private:
-	int SelectedItem;
-	sf::Font fonttitle;
+	int Selected;
+	sf::Font fontTitle;
 	sf::Font font;
 	sf::Text MENU_T[MAX_NUMBER_OF_ITEMS];
 	sf::Text m_title;
