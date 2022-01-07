@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
+#include<string>
 #include "menu.h"
 using namespace sf;
 
@@ -44,7 +45,6 @@ bool check()
 
 	return 1;
 };
-
 
 int main()
 {
@@ -213,7 +213,7 @@ int main()
 				}
 			}
 		}
-
+		
 		int k = M - 1;//dlugosc pola, skad spada klocek
 		for (int i = M - 1; i > 0; i--)
 		{
@@ -223,13 +223,16 @@ int main()
 				if (field[i][j]) count++;
 				field[k][j] = field[i][j];
 			}
-			if (count < N) k--;
+			if (count < N)
+			{
+				k--;			
+			}
 		}
 		dx = 0; rotate = 0; delay = 0.3;
 
 		window.clear(Color::White);
 		window.draw(background);
-
+		
 
 		RectangleShape rectangle;
 
@@ -271,6 +274,7 @@ int main()
 			window.draw(rectangle);
 
 			window.draw(gameover);
+			menu = true;
 		}
 
 		if (menu)
