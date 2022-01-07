@@ -10,6 +10,7 @@ const int N = 10;
 
 int field[M][N] = { 0 };
 bool end = false;
+int score = 0;
 struct Point
 {
 	int x, y;
@@ -35,7 +36,7 @@ int figures[7][4] =
 /// sprawdzenie kolizji klocków 
 /// </summary>
 /// <returns>prawda jeśli nie nachodzą</returns>
-
+void cleanBoard();
 bool check()
 {
 	for (int i = 0; i < 4; i++)
@@ -70,6 +71,16 @@ int main()
 	t2.loadFromFile("images/background1.jpg");
 	t3.loadFromFile("images/frame1.png");
 	t4.loadFromFile("images/gameover.png");
+	sf::Text score_text;
+	sf::Font font_t;
+	font_t.loadFromFile("cz/LexendDeca-Regular.ttf");
+
+	score_text.setFont(font_t);
+	
+	score_text.setCharacterSize(20);
+	score_text.setFillColor(sf::Color::Black);
+	score_text.setPosition(sf::Vector2f(22, 400));
+
 
 	Sprite background(t2), frame(t3), gameover(t4);
 	gameover.move(10, 50);
@@ -86,7 +97,7 @@ int main()
 	Clock clock;
 
 	bool menu = true;
-
+	bool r = true;
 	// Kształt pierwszej figury
 	for (int i = 0; i < 4; i++)
 	{
@@ -106,31 +117,35 @@ int main()
 		Event e;
 		while (window.pollEvent(e))
 		{
-
-			if (e.type == sf::Event::KeyPressed)
-			{
-				if (e.key.code == sf::Keyboard::Up)
+			if (r) {
+				if (e.type == sf::Event::KeyPressed)
 				{
-					Menu.MoveUp();
-				}
-				if (e.key.code == sf::Keyboard::Down)
-				{
-					Menu.MoveDown();
-				}
-				if (e.key.code == sf::Keyboard::Enter)
-				{
-					switch (Menu.Pressed())
+					if (e.key.code == sf::Keyboard::Up)
 					{
+						Menu.MoveUp();
+					}
+					if (e.key.code == sf::Keyboard::Down)
+					{
+						Menu.MoveDown();
+					}
+					if (e.key.code == sf::Keyboard::Enter)
+					{
+						switch (Menu.Pressed())
+						{
 						case 0:
 						{
 							//gra
 							menu = false;
+							r = false;
 							timer = 0;
+							cleanBoard();
+							score = 0;
+							end = false;
 							break;
 						}
 						case 1:
 						{
-							//zasady
+							//zasady brak
 							break;
 						}
 						case 2:
@@ -138,15 +153,19 @@ int main()
 							window.close();
 							break;
 						}
+						}
 					}
-				}
 
+				}
 			}
 			if (e.type == Event::Closed)  
 				window.close();
 			if (e.type == Event::KeyPressed)
-				if (e.key.code == Keyboard::Escape) window.close();
-
+				if (e.key.code == Keyboard::Escape)
+				{
+					menu = true;
+					r=true;
+				}
 			if (e.type == Event::KeyPressed)
 				if (e.key.code == Keyboard::Up) rotate = true;
 				else if (e.key.code == Keyboard::Left) dx = -1;
@@ -169,7 +188,7 @@ int main()
 
 		if (rotate)
 		{
-			Point p = a[1]; //center of rotation
+			Point p = a[1]; //srodek obrotu
 			for (int i = 0; i < 4; i++)
 			{
 				int x = a[i].y - p.y; //musimy znać odległość od środka obrotu i póżniej tę odległość przenosimy na wpółrzędne x albo y
@@ -225,14 +244,14 @@ int main()
 			}
 			if (count < N)
 			{
-				k--;			
+				k--;		
 			}
+			else { score+=10; }
 		}
 		dx = 0; rotate = 0; delay = 0.3;
 
 		window.clear(Color::White);
 		window.draw(background);
-		
 
 		RectangleShape rectangle;
 
@@ -265,16 +284,15 @@ int main()
 
 		}
 		window.draw(frame);
-
+		score_text.setString("SCORE: "+std::to_string(score));
+		window.draw(score_text);
 		if (end)
 		{
 			rectangle.setSize(Vector2f(260, 430));
 			rectangle.setFillColor(Color(0, 0, 0, 200));
 			rectangle.setPosition(0, 0);
 			window.draw(rectangle);
-
 			window.draw(gameover);
-			menu = true;
 		}
 
 		if (menu)
@@ -283,7 +301,6 @@ int main()
 			rectangle.setFillColor(Color(0, 0, 0, 250));
 			rectangle.setPosition(0,0);
 			window.draw(rectangle);
-
 			Menu.draw(window);
 		}
 
@@ -293,4 +310,14 @@ int main()
 
 	return 0;
 
+}
+void cleanBoard()
+{
+	for (int i = 0; i < M; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			field[i][j] = 0;
+		}
+	}
 }
