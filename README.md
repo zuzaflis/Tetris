@@ -11,4 +11,4 @@ Gra została stworzona jako projekt końcowy przedmiotu Podstawy Informatyki. Do
 
 
 
-![](https://github.com/zuzaflis/Tetris/blob/master/ss2.png)
+![](https://github.com/zuzaflis/Tetris/blob/master/tetrisgif.gif)
